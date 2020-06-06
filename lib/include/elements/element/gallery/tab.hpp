@@ -48,9 +48,9 @@ namespace cycfi { namespace elements
    }
 
    template <typename W1, typename W2>
-   inline basic_choice tab(W1&& off, W2&& on)
+   inline basic_choice<> tab(W1&& off, W2&& on)
    {
-      return basic_choice(
+      return basic_choice<>(
          tab_element<false, remove_cvref_t<W1>>{ std::forward<W1>(off) }
        , tab_element<true, remove_cvref_t<W2>>{ std::forward<W2>(on) }
       );

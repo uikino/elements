@@ -32,9 +32,9 @@ namespace cycfi { namespace elements
       draw_radio_button(ctx, _text, state, ctx.bounds.includes(ctx.view.cursor_pos()));
    }
 
-   inline basic_choice radio_button(std::string text)
+   inline basic_choice<> radio_button(std::string text)
    {
-      return basic_choice(
+      return basic_choice<>(
          radio_button_element<false>{ text }
        , radio_button_element<true>{ text }
       );

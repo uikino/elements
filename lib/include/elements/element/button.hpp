@@ -10,6 +10,7 @@
 #include <elements/element/proxy.hpp>
 #include <elements/element/selectable.hpp>
 #include <elements/support/context.hpp>
+#include <elements/element/traversal.hpp>
 #include <elements/view.hpp>
 #include <functional>
 #include <type_traits>
@@ -212,16 +213,68 @@ namespace cycfi { namespace elements
    ////////////////////////////////////////////////////////////////////////////
    // Basic Choice
    ////////////////////////////////////////////////////////////////////////////
+   template <typename Base = layered_button>
    class basic_choice : public basic_latching_button<>, public selectable
    {
    public:
 
-      using basic_latching_button::basic_latching_button;
+      using basic_latching_button<Base>::basic_latching_button;
 
       void              select(bool state) override;
       bool              is_selected() const override;
       element*          click(context const& ctx, mouse_button btn) override;
    };
+
+   template <typename Base>
+   inline bool basic_choice<Base>::is_selected() const
+   {
+      return value();
+   }
+
+   template <typename Base>
+   inline void basic_choice<Base>::select(bool state)
+   {
+      if (state != is_selected())
+         value(state);
+   }
+
+   template <typename Base>
+   element* basic_choice<Base>::click(context const& ctx, mouse_button btn)
+   {
+      bool was_selected = is_selected();
+      auto r = basic_latching_button<>::click(ctx, btn);
+      if (!was_selected && value())
+      {
+         auto [c, cctx] = find_composite(ctx);
+         if (c)
+         {
+            for (std::size_t i = 0; i != c->size(); ++i)
+            {
+               if (auto e = find_element<basic_choice*>(&c->at(i)))
+               {
+                  if (e == this)
+                  {
+                     // Set the button
+                     e->select(true);
+                     // The base class::click should have called on_click already
+                  }
+                  else
+                  {
+                     if (e->is_selected())
+                     {
+                        // Reset the button
+                        e->select(false);
+                        if (e->on_click)
+                           e->on_click(false);
+                     }
+                  }
+               }
+            }
+         }
+         cctx->view.refresh(*cctx);
+      }
+      return r;
+   }
 }}
 
 #endif

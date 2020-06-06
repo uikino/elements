@@ -24,7 +24,7 @@ namespace cycfi { namespace elements
       template <typename Pages, typename Tab, typename... RestTabs>
       void link_tabs(view& view_, Pages pages_, std::size_t index, Tab tab_, RestTabs... rest)
       {
-         auto* tab = find_element<basic_choice*>(tab_.get());
+         auto* tab = find_element<basic_choice<>*>(tab_.get());
          auto* pages = find_element<deck_element*>(pages_.get());
          if (tab && pages)
          {
