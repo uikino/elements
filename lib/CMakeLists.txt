@@ -23,6 +23,7 @@ set(ELEMENTS_SOURCES
    src/element/gallery/tab.cpp
    src/element/grid.cpp
    src/element/image.cpp
+   src/element/label.cpp
    src/element/layer.cpp
    src/element/menu.cpp
    src/element/misc.cpp
@@ -75,6 +76,7 @@ set(ELEMENTS_HEADERS
    include/elements/element/grid.hpp
    include/elements/element/image.hpp
    include/elements/element/indirect.hpp
+   include/elements/element/label.hpp
    include/elements/element/layer.hpp
    include/elements/element/margin.hpp
    include/elements/element/menu.hpp
