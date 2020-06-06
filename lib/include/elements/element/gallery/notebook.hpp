@@ -24,11 +24,11 @@ namespace cycfi { namespace elements
       template <typename Pages, typename Tab, typename... RestTabs>
       void link_tabs(view& view_, Pages pages_, std::size_t index, Tab tab_, RestTabs... rest)
       {
-         auto* tab = find_element<basic_choice<>*>(tab_.get());
+         auto* tab = find_element<basic_choice_base*>(tab_.get());
          auto* pages = find_element<deck_element*>(pages_.get());
          if (tab && pages)
          {
-            tab->on_click =
+            tab->get_sender().on_send(
                [index, pages, &view_](bool state)
                {
                   if (state)
@@ -36,7 +36,7 @@ namespace cycfi { namespace elements
                      pages->select(index);
                      view_.refresh(*pages);
                   }
-               };
+               });
          }
 
          if constexpr(sizeof...(RestTabs) > 0)

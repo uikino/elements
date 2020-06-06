@@ -85,7 +85,6 @@ set(ELEMENTS_HEADERS
    include/elements/element/port.hpp
    include/elements/element/progress_bar.hpp
    include/elements/element/proxy.hpp
-   include/elements/element/receiver.hpp
    include/elements/element/selectable.hpp
    include/elements/element/size.hpp
    include/elements/element/slider.hpp
@@ -106,6 +105,7 @@ set(ELEMENTS_HEADERS
    include/elements/support/icon_ids.hpp
    include/elements/support/pixmap.hpp
    include/elements/support/point.hpp
+   include/elements/support/receiver.hpp
    include/elements/support/rect.hpp
    include/elements/support/resource_paths.hpp
    include/elements/support/text_utils.hpp

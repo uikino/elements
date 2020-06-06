@@ -9,10 +9,10 @@
 #include <elements/element/layer.hpp>
 #include <elements/element/proxy.hpp>
 #include <elements/element/selectable.hpp>
-#include <elements/support/context.hpp>
 #include <elements/element/traversal.hpp>
+#include <elements/support/context.hpp>
+#include <elements/support/sender.hpp>
 #include <elements/view.hpp>
-#include <functional>
 #include <type_traits>
 
 namespace cycfi { namespace elements
@@ -20,7 +20,7 @@ namespace cycfi { namespace elements
    ////////////////////////////////////////////////////////////////////////////
    // Basic Button
    ////////////////////////////////////////////////////////////////////////////
-   class basic_button : public proxy_base, public receiver<bool>
+   class basic_button : public proxy_base, public receiver<bool>, public sender<bool>
    {
    public:
 
@@ -39,6 +39,8 @@ namespace cycfi { namespace elements
       void              value(bool new_state) override;
       bool              value() const override;
 
+      void              send(bool val) override;
+      void              on_send(callback_function f) override;
       button_function   on_click;
 
    protected:
@@ -55,7 +57,7 @@ namespace cycfi { namespace elements
    // Layered Button
    ////////////////////////////////////////////////////////////////////////////
    class layered_button
-    : public array_composite<2, deck_element>, public receiver<bool>
+    : public array_composite<2, deck_element>, public receiver<bool>, public sender<bool>
    {
    public:
 
@@ -73,6 +75,8 @@ namespace cycfi { namespace elements
       void              value(bool new_state) override;
       bool              value() const override;
 
+      void              send(bool val) override;
+      void              on_send(callback_function f) override;
       button_function   on_click;
 
    protected:
@@ -213,8 +217,14 @@ namespace cycfi { namespace elements
    ////////////////////////////////////////////////////////////////////////////
    // Basic Choice
    ////////////////////////////////////////////////////////////////////////////
+   struct basic_choice_base : public selectable
+   {
+      virtual sender<bool>&   get_sender() = 0;
+      void                    do_click(context const& ctx, bool val, bool was_selected);
+   };
+
    template <typename Base = layered_button>
-   class basic_choice : public basic_latching_button<Base>, public selectable
+   class basic_choice : public basic_latching_button<Base>, public basic_choice_base
    {
    public:
 
@@ -223,6 +233,7 @@ namespace cycfi { namespace elements
       void              select(bool state) override;
       bool              is_selected() const override;
       element*          click(context const& ctx, mouse_button btn) override;
+      sender<bool>&     get_sender() override { return *this; }
    };
 
    template <typename Base>
@@ -243,36 +254,7 @@ namespace cycfi { namespace elements
    {
       bool was_selected = is_selected();
       auto r = basic_latching_button<Base>::click(ctx, btn);
-      if (!was_selected && this->value())
-      {
-         auto [c, cctx] = find_composite(ctx);
-         if (c)
-         {
-            for (std::size_t i = 0; i != c->size(); ++i)
-            {
-               if (auto e = find_element<basic_choice*>(&c->at(i)))
-               {
-                  if (e == this)
-                  {
-                     // Set the button
-                     e->select(true);
-                     // The base class::click should have called on_click already
-                  }
-                  else
-                  {
-                     if (e->is_selected())
-                     {
-                        // Reset the button
-                        e->select(false);
-                        if (e->on_click)
-                           e->on_click(false);
-                     }
-                  }
-               }
-            }
-         }
-         cctx->view.refresh(*cctx);
-      }
+      this->do_click(ctx, this->value(), was_selected);
       return r;
    }
 }}
