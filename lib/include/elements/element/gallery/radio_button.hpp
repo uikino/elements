@@ -24,9 +24,7 @@ namespace cycfi { namespace elements
    inline basic_choice<proxy<radio_button_element, basic_button>>
    radio_button(std::string text)
    {
-      return basic_choice<proxy<radio_button_element, basic_button>>(
-         radio_button_element{ text }
-      );
+      return { radio_button_element{ text } };
    }
 }}
 

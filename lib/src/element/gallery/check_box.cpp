@@ -7,9 +7,7 @@
 
 namespace cycfi { namespace elements
 {
-   void draw_check_box(
-     context const& ctx, std::string const& text, bool state, bool hilite
-   )
+   void check_box_element::draw(context const& ctx)
    {
       auto&       canvas_ = ctx.canvas;
       auto        canvas_state = canvas_.new_state();
@@ -18,13 +16,18 @@ namespace cycfi { namespace elements
       rect        box = ctx.bounds.move(15, 0);
 
       box.width(box.height());
+      bool        state = value() > 1;
+      bool        hilite = value() & 1;
 
-      color c1 = state ? indicator_color.level(1.5) : rgb(0, 0, 0).opacity(theme_.element_background_opacity);
+      color c1 = state ?
+         (hilite? theme_.indicator_hilite_color : theme_.indicator_bright_color) :
+         colors::black.opacity(theme_.element_background_opacity)
+         ;
 
       if (state)
-         draw_icon(canvas_, box, icons::ok, 14, c1.level(hilite ? 2.0 : 1.0));
+         draw_icon(canvas_, box, icons::ok, 14, c1);
 
-      color outline_color = theme_.frame_color;
+      color outline_color = hilite? theme_.frame_hilite_color : theme_.frame_color;
       canvas_.begin_path();
       canvas_.round_rect(box.inset(1, 1), 3);
       canvas_.stroke_style(outline_color);
@@ -43,6 +46,6 @@ namespace cycfi { namespace elements
       canvas_.text_align(canvas_.left | canvas_.middle);
       float cx = box.right + 10;
       float cy = ctx.bounds.top + (ctx.bounds.height() / 2);
-      canvas_.fill_text(point{ cx, cy }, text.c_str());
+      canvas_.fill_text(point{ cx, cy }, _text.c_str());
    }
 }}
