@@ -14,29 +14,18 @@ namespace cycfi { namespace elements
    ////////////////////////////////////////////////////////////////////////////
    // Radio Button
    ////////////////////////////////////////////////////////////////////////////
-   void draw_radio_button(
-      context const& ctx, std::string const& text, bool state, bool hilite
-   );
-
-   template <bool state>
-   struct radio_button_element : toggle_selector
+   struct radio_button_element : toggle_selector, basic_receiver<int>
    {
       using toggle_selector::toggle_selector;
 
       void                    draw(context const& ctx) override;
    };
 
-   template <bool state>
-   void radio_button_element<state>::draw(context const& ctx)
+   inline basic_choice<proxy<radio_button_element, basic_button>>
+   radio_button(std::string text)
    {
-      draw_radio_button(ctx, _text, state, ctx.bounds.includes(ctx.view.cursor_pos()));
-   }
-
-   inline basic_choice<> radio_button(std::string text)
-   {
-      return basic_choice<>(
-         radio_button_element<false>{ text }
-       , radio_button_element<true>{ text }
+      return basic_choice<proxy<radio_button_element, basic_button>>(
+         radio_button_element{ text }
       );
    }
 }}

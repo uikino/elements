@@ -196,7 +196,7 @@ namespace cycfi { namespace elements
          return nullptr;
       if (btn.down)
       {
-         layered_button::click(ctx, btn);
+         Base::click(ctx, btn);
          if (this->value() && this->on_click)
             this->on_click(true);
       }
@@ -214,7 +214,7 @@ namespace cycfi { namespace elements
    // Basic Choice
    ////////////////////////////////////////////////////////////////////////////
    template <typename Base = layered_button>
-   class basic_choice : public basic_latching_button<>, public selectable
+   class basic_choice : public basic_latching_button<Base>, public selectable
    {
    public:
 
@@ -228,22 +228,22 @@ namespace cycfi { namespace elements
    template <typename Base>
    inline bool basic_choice<Base>::is_selected() const
    {
-      return value();
+      return this->value();
    }
 
    template <typename Base>
    inline void basic_choice<Base>::select(bool state)
    {
       if (state != is_selected())
-         value(state);
+         this->value(state);
    }
 
    template <typename Base>
    element* basic_choice<Base>::click(context const& ctx, mouse_button btn)
    {
       bool was_selected = is_selected();
-      auto r = basic_latching_button<>::click(ctx, btn);
-      if (!was_selected && value())
+      auto r = basic_latching_button<Base>::click(ctx, btn);
+      if (!was_selected && this->value())
       {
          auto [c, cctx] = find_composite(ctx);
          if (c)
