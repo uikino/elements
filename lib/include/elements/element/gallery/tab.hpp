@@ -27,10 +27,9 @@ namespace cycfi { namespace elements
       std::string             _text;
    };
 
-   inline basic_choice<proxy<tab_element, basic_button>>
-   tab(std::string text)
+   inline auto tab(std::string text)
    {
-      return { tab_element{ text } };
+      return choice(tab_element{ text });
    }
 }}
 

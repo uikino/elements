@@ -21,10 +21,9 @@ namespace cycfi { namespace elements
       void                    draw(context const& ctx) override;
    };
 
-   inline basic_toggle_button<proxy<check_box_element, basic_button>>
-   check_box(std::string text)
+   inline auto check_box(std::string text)
    {
-      return { check_box_element{ text } };
+      return toggle_button(check_box_element{ text });
    }
 }}
 

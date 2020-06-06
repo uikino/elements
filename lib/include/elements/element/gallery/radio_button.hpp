@@ -21,10 +21,9 @@ namespace cycfi { namespace elements
       void                    draw(context const& ctx) override;
    };
 
-   inline basic_choice<proxy<radio_button_element, basic_button>>
-   radio_button(std::string text)
+   inline auto radio_button(std::string text)
    {
-      return { radio_button_element{ text } };
+      return choice(radio_button_element{ text });
    }
 }}
 

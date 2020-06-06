@@ -257,6 +257,13 @@ namespace cycfi { namespace elements
       this->do_click(ctx, this->value(), was_selected);
       return r;
    }
+
+   template <typename Subject>
+   inline basic_choice<proxy<Subject, basic_button>>
+   choice(Subject&& subject)
+   {
+      return { std::forward<Subject>(subject) };
+   }
 }}
 
 #endif
