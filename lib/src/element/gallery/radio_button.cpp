@@ -12,7 +12,6 @@ namespace cycfi { namespace elements
       auto&       canvas_ = ctx.canvas;
       auto        canvas_state = canvas_.new_state();
       auto const& theme_ = get_theme();
-      float const bg_alfa = theme_.box_widget_bg_opacity;
       rect        box = ctx.bounds.move(15, 0);
       float       size = box.height();
       float       radius = size/2;
@@ -27,7 +26,7 @@ namespace cycfi { namespace elements
       {
          color c1 = state ?
             (hilite? theme_.indicator_hilite_color : theme_.indicator_bright_color) :
-            colors::black.opacity(bg_alfa)
+            colors::black.opacity(theme_.element_background_opacity)
             ;
 
          canvas_.begin_path();

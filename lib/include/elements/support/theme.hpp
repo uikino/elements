@@ -35,7 +35,7 @@ namespace cycfi { namespace elements
                                           // uses for displaying text in OS UI elements
                                           // such as menus, window title-bars, etc.
 
-      float                box_widget_bg_opacity;
+      float                element_background_opacity;
 
       color                heading_font_color;
       font                 heading_font;

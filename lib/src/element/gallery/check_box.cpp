@@ -15,12 +15,11 @@ namespace cycfi { namespace elements
       auto        canvas_state = canvas_.new_state();
       auto const& theme_ = get_theme();
       color const indicator_color = theme_.indicator_color;
-      float const bg_alfa = theme_.box_widget_bg_opacity;
       rect        box = ctx.bounds.move(15, 0);
 
       box.width(box.height());
 
-      color c1 = state ? indicator_color.level(1.5) : rgb(0, 0, 0).opacity(bg_alfa);
+      color c1 = state ? indicator_color.level(1.5) : rgb(0, 0, 0).opacity(theme_.element_background_opacity);
 
       if (state)
          draw_icon(canvas_, box, icons::ok, 14, c1.level(hilite ? 2.0 : 1.0));
