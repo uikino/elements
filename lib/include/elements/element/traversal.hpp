@@ -7,24 +7,12 @@
 #define ELEMENTS_TRAVERSAL_MAY_23_2020
 
 #include <elements/element/proxy.hpp>
+#include <elements/element/indirect.hpp>
 #include <elements/element/composite.hpp>
 #include <type_traits>
 
 namespace cycfi { namespace elements
 {
-   ////////////////////////////////////////////////////////////////////////////
-   // find_subject utility finds the outermost subject of the given pointer
-   // type or nullptr if not found. Searches subjects of proxies only.
-   ////////////////////////////////////////////////////////////////////////////
-   template <typename Base>
-   class indirect;
-
-   template <typename Element>
-   class reference;
-
-   template <typename Element>
-   class shared_element;
-
    namespace detail
    {
       template <typename Ptr>
@@ -33,21 +21,17 @@ namespace cycfi { namespace elements
          if (auto* e = dynamic_cast<Ptr>(e_))
             return e;
 
-         using E = std::remove_pointer_t<Ptr>;
-         if constexpr(std::is_base_of<element, E>::value)
-         {
-            using indirect_shared = indirect<shared_element<E>>;
-            if (auto *e = dynamic_cast<indirect_shared*>(e_))
-               return &e->get();
+         if (auto* e = dynamic_cast<indirect_base*>(e_))
+            return find_element_impl<Ptr>(&e->get());
 
-            using indirect_reference = indirect<reference<E>>;
-            if (auto *e = dynamic_cast<indirect_reference*>(e_))
-               return &e->get();
-         }
          return nullptr;
       }
    }
 
+   ////////////////////////////////////////////////////////////////////////////
+   // find_subject utility finds the outermost subject of the given pointer
+   // type or nullptr if not found. Searches subjects of proxies only.
+   ////////////////////////////////////////////////////////////////////////////
    template <typename Ptr>
    inline Ptr find_subject(element* e_)
    {
