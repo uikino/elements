@@ -26,6 +26,7 @@ namespace cycfi { namespace elements
       rect                 button_margin;
 
       color                controls_color;
+      float                controls_frame_stroke_width;
       color                indicator_color;
       color                indicator_bright_color;
       color                indicator_hilite_color;

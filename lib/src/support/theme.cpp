@@ -19,6 +19,7 @@ namespace cycfi { namespace elements
     , button_margin              { 10, 5, 10, 5 }
 
     , controls_color             { rgba(18, 49, 85, 200) }
+    , controls_frame_stroke_width{ 1.5 }
     , indicator_color            { rgba(0, 127, 255, 200) }
     , indicator_bright_color     { indicator_color.level(1.5) }
     , indicator_hilite_color     { indicator_color.level(2.0) }

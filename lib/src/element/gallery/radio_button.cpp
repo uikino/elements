@@ -35,14 +35,18 @@ namespace cycfi { namespace elements
          canvas_.fill();
       }
 
+      auto line_width = theme_.controls_frame_stroke_width;
       color outline_color = hilite? theme_.frame_hilite_color : theme_.frame_color;
+      canvas_.line_width(line_width);
       canvas_.begin_path();
       canvas_.circle(circle(center, radius-1));
       canvas_.stroke_style(outline_color);
       canvas_.stroke();
 
       // Pseudo glow
-      canvas_.circle(circle(center, radius));
+      auto glow_width = hilite? line_width*2 : line_width;
+      canvas_.circle(circle(center, radius-(glow_width/3)));
+      canvas_.line_width(glow_width);
       canvas_.stroke_style(outline_color.opacity(0.1));
       canvas_.stroke();
 
