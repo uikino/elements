@@ -24,6 +24,8 @@ int main(int argc, char* argv[])
                      // specifies the layering. The lowest layer
                      // is at the bottom of this list.
 
+      align_center_middle(button("Clear Latch", icons::lock_open, 1.0)),
+
       background     // Replace background with your main element,
                      // or keep it and add another layer on top of it.
    );

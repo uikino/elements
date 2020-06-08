@@ -10,6 +10,7 @@
 #include <elements/element/button.hpp>
 #include <elements/element/popup.hpp>
 #include <elements/element/selectable.hpp>
+#include <elements/element/indirect.hpp>
 #include <elements/view.hpp>
 #include <infra/support.hpp>
 
@@ -26,17 +27,18 @@ namespace cycfi { namespace elements
       bottom_right
    };
 
-   class basic_menu : public layered_button
+   class basic_menu : public proxy<shared_element<element>, basic_button>
    {
    public:
 
+      using base_type = proxy<shared_element<element>, basic_button>;
       using on_open_menu_function = std::function<void(basic_menu& menu)>;
-      using layered_button::focus;
+      using basic_button::focus;
 
-                              template <typename W1, typename W2>
                               basic_menu(
-                                 W1&& off, W2&& on
-                               , menu_position pos = menu_position::bottom_right);
+                                 element subject
+                               , menu_position pos = menu_position::bottom_right
+                              );
 
       element*                click(context const& ctx, mouse_button btn) override;
       void                    drag(context const& ctx, mouse_button btn) override;
@@ -61,9 +63,8 @@ namespace cycfi { namespace elements
       menu_position           _position;
    };
 
-   template <typename W1, typename W2>
-   inline basic_menu::basic_menu(W1&& off, W2&& on, menu_position pos)
-    : layered_button(std::forward<W1>(off), std::forward<W2>(on))
+   inline basic_menu::basic_menu(element subject, menu_position pos)
+    : base_type(hold(share(std::move(subject))))
     , _position(pos)
    {}
 

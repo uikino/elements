@@ -21,7 +21,7 @@ namespace cycfi { namespace elements
 
       // Draw Button Body
       color body_color = state? body_color_ : body_color_.opacity(0.5).level(0.8);
-      draw_button_base(ctx, ctx.bounds, body_color, corner_radius);
+      draw_button(ctx.canvas, ctx.bounds, body_color, corner_radius);
 
       canvas& canvas_ = ctx.canvas;
       rect bounds = ctx.bounds;

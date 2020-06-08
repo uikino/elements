@@ -135,7 +135,7 @@ auto make_controls(view& view_)
                      htile(
                         align_center(toggle_button(power_button)),
                         align_center(toggle_button(phase_button)),
-                        align_center(momentary_button(mail_button)),
+                        align_center(button(mail_button)),
                         align_center(toggle_button(transpo_button))
                      )
                   )

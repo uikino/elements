@@ -14,7 +14,7 @@ namespace cycfi { namespace elements
    ////////////////////////////////////////////////////////////////////////////
    // Check Box
    ////////////////////////////////////////////////////////////////////////////
-   struct check_box_element : toggle_selector, basic_receiver<int>
+   struct check_box_element : toggle_selector
    {
       using toggle_selector::toggle_selector;
 

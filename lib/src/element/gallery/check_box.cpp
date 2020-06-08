@@ -36,7 +36,7 @@ namespace cycfi { namespace elements
       canvas_.stroke();
 
       // Pseudo glow
-      auto glow_width = hilite? line_width*2 : line_width;
+      auto glow_width = hilite? line_width*3 : line_width*1.5;
       auto inset = glow_width/3;
       auto glow_box = box.inset(inset, inset);
       canvas_.round_rect(glow_box, 4);

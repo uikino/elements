@@ -19,22 +19,33 @@ namespace cycfi { namespace elements
    ////////////////////////////////////////////////////////////////////////////
    // Popup Button
    ////////////////////////////////////////////////////////////////////////////
-   basic_menu button_menu(
-      std::string text
-    , menu_position pos = menu_position::bottom_right
-    , color body_color = get_theme().default_button_color
-   );
+   basic_menu
+   button_menu(std::string text, menu_position pos, color body_color)
+   {
+      auto icon =
+         (pos == menu_position::bottom_right || pos == menu_position::bottom_left)?
+         icons::down_dir : icons::up_dir
+         ;
+      auto btn_image = make_button_image(std::move(text), icon, 1.0, body_color);
+      return make_button<basic_menu>(btn_image, pos);
+   }
 
-   basic_menu button_menu(
-      menu_position pos = menu_position::bottom_right
-    , color body_color = get_theme().default_button_color
-   );
+   basic_menu
+   button_menu(menu_position pos, color body_color)
+   {
+      auto icon =
+         (pos == menu_position::bottom_right || pos == menu_position::bottom_left)?
+         icons::down_dir : icons::up_dir
+         ;
+      auto btn_image = make_button_image(icon, 1.0, body_color);
+      return make_button<basic_menu>(btn_image, pos);
+   }
 
-   basic_menu icon_menu(
-      uint32_t code
-    , float size
-    , menu_position pos = menu_position::bottom_right
-   );
+   // basic_menu icon_menu(uint32_t code, float size, menu_position pos)
+   // {
+   //    auto menu = text_button<basic_menu>(code, size, /*no_frame*/ true);
+   //    return make_button<basic_menu>(btn_image, pos);
+   // }
 
    ////////////////////////////////////////////////////////////////////////////
    // Menu Background

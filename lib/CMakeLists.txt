@@ -18,7 +18,7 @@ set(ELEMENTS_SOURCES
    src/element/gallery/button.cpp
    src/element/gallery/check_box.cpp
    src/element/gallery/icon_button.cpp
-   src/element/gallery/menu.cpp
+   # src/element/gallery/menu.cpp
    src/element/gallery/radio_button.cpp
    src/element/gallery/tab.cpp
    src/element/grid.cpp
@@ -63,10 +63,10 @@ set(ELEMENTS_HEADERS
    include/elements/element/gallery/caption.hpp
    include/elements/element/gallery/check_box.hpp
    include/elements/element/gallery/dial.hpp
-   include/elements/element/gallery/dialog.hpp
+   # include/elements/element/gallery/dialog.hpp
    include/elements/element/gallery/group.hpp
    include/elements/element/gallery/icon_button.hpp
-   include/elements/element/gallery/menu.hpp
+   # include/elements/element/gallery/menu.hpp
    include/elements/element/gallery/message_box.hpp
    include/elements/element/gallery/notebook.hpp
    include/elements/element/gallery/pane.hpp
@@ -79,9 +79,9 @@ set(ELEMENTS_HEADERS
    include/elements/element/label.hpp
    include/elements/element/layer.hpp
    include/elements/element/margin.hpp
-   include/elements/element/menu.hpp
+   # include/elements/element/menu.hpp
    include/elements/element/misc.hpp
-   include/elements/element/popup.hpp
+   # include/elements/element/popup.hpp
    include/elements/element/port.hpp
    include/elements/element/progress_bar.hpp
    include/elements/element/proxy.hpp

@@ -9,6 +9,7 @@
 #include <elements/element/proxy.hpp>
 #include <elements/element/indirect.hpp>
 #include <elements/element/composite.hpp>
+#include <elements/element/layer.hpp>
 #include <type_traits>
 
 namespace cycfi { namespace elements
@@ -23,6 +24,15 @@ namespace cycfi { namespace elements
 
          if (auto* e = dynamic_cast<indirect_base*>(e_))
             return find_element_impl<Ptr>(&e->get());
+
+         if (auto* c = dynamic_cast<layer_element*>(e_))
+         {
+            for (auto i = 0; i != c->size(); ++i)
+            {
+               if (auto e = find_element_impl<Ptr>(&c->at(i)))
+                  return e;
+            }
+         }
 
          return nullptr;
       }

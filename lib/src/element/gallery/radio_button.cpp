@@ -14,7 +14,7 @@ namespace cycfi { namespace elements
       auto const& theme_ = get_theme();
       rect        box = ctx.bounds.move(15, 0);
       float       size = box.height();
-      float       radius = size/2;
+      float       radius = (size/2)-1;
       float       dot_radius = radius/2.5;
 
       box.width(size);

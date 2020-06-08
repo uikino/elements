@@ -7,37 +7,6 @@
 
 namespace cycfi { namespace elements
 {
-   basic_menu
-   button_menu(std::string text, menu_position pos, color body_color)
-   {
-      auto icon =
-         (pos == menu_position::bottom_right || pos == menu_position::bottom_left)?
-         icons::down_dir : icons::up_dir
-         ;
-      auto menu = make_button<basic_menu>(std::move(text), icon, 1.0, body_color);
-      menu.position(pos);
-      return menu;
-   }
-
-   basic_menu
-   button_menu(menu_position pos, color body_color)
-   {
-      auto icon =
-         (pos == menu_position::bottom_right || pos == menu_position::bottom_left)?
-         icons::down_dir : icons::up_dir
-         ;
-      auto menu = make_button<basic_menu>(icon, 1.0, body_color);
-      menu.position(pos);
-      return menu;
-   }
-
-   basic_menu icon_menu(uint32_t code, float size, menu_position pos)
-   {
-      auto menu = text_button<basic_menu>(code, size, /*no_frame*/ true);
-      menu.position(pos);
-      return menu;
-   }
-
    view_limits menu_item_spacer_element::limits(basic_context const& /* ctx */) const
    {
       auto height = get_theme().label_font_size;
@@ -64,7 +33,7 @@ namespace cycfi { namespace elements
 
       auto menu_btn = text_button<basic_menu>(
          margin(
-             get_theme().button_margin,
+            get_theme().button_margin,
             htile(
                align_left(hold(btn_text)),
                align_right(left_margin(12, icon(icons::down_dir, 1.0)))
