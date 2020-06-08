@@ -21,8 +21,7 @@ namespace cycfi { namespace elements
 
       view_limits             limits(basic_context const& ctx) const override;
       void                    draw(context const& ctx) override;
-      bool                    cursor(context const& ctx, point p, cursor_tracking status) override;
-      bool                    wants_control() const override;
+      element*                hit_test(context const& ctx, point p) override;
 
       std::string             _text;
    };
