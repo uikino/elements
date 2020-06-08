@@ -27,18 +27,14 @@ namespace cycfi { namespace elements
       bottom_right
    };
 
-   class basic_menu : public proxy<shared_element<element>, basic_button>
+   class basic_menu : public basic_button
    {
    public:
 
-      using base_type = proxy<shared_element<element>, basic_button>;
       using on_open_menu_function = std::function<void(basic_menu& menu)>;
       using basic_button::focus;
 
-                              basic_menu(
-                                 element subject
-                               , menu_position pos = menu_position::bottom_right
-                              );
+                              basic_menu(menu_position pos = menu_position::bottom_right);
 
       element*                click(context const& ctx, mouse_button btn) override;
       void                    drag(context const& ctx, mouse_button btn) override;
@@ -63,9 +59,8 @@ namespace cycfi { namespace elements
       menu_position           _position;
    };
 
-   inline basic_menu::basic_menu(element subject, menu_position pos)
-    : base_type(hold(share(std::move(subject))))
-    , _position(pos)
+   inline basic_menu::basic_menu(menu_position pos)
+    : _position(pos)
    {}
 
    template <typename Menu>

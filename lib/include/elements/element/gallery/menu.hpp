@@ -9,6 +9,7 @@
 #include <elements/element/indirect.hpp>
 #include <elements/element/menu.hpp>
 #include <elements/element/size.hpp>
+#include <elements/element/indirect.hpp>
 #include <elements/support/theme.hpp>
 #include <elements/element/gallery/button.hpp>
 #include <string>
@@ -19,8 +20,11 @@ namespace cycfi { namespace elements
    ////////////////////////////////////////////////////////////////////////////
    // Popup Button
    ////////////////////////////////////////////////////////////////////////////
-   basic_menu
-   button_menu(std::string text, menu_position pos, color body_color)
+   inline auto button_menu(
+      std::string text
+    , menu_position pos = menu_position::bottom_right
+    , color body_color = get_theme().default_button_color
+   )
    {
       auto icon =
          (pos == menu_position::bottom_right || pos == menu_position::bottom_left)?
@@ -30,8 +34,10 @@ namespace cycfi { namespace elements
       return make_button<basic_menu>(btn_image, pos);
    }
 
-   basic_menu
-   button_menu(menu_position pos, color body_color)
+   inline auto button_menu(
+      menu_position pos = menu_position::bottom_right
+    , color body_color = get_theme().default_button_color
+   )
    {
       auto icon =
          (pos == menu_position::bottom_right || pos == menu_position::bottom_left)?
@@ -41,6 +47,7 @@ namespace cycfi { namespace elements
       return make_button<basic_menu>(btn_image, pos);
    }
 
+   // $$$ TODO $$$
    // basic_menu icon_menu(uint32_t code, float size, menu_position pos)
    // {
    //    auto menu = text_button<basic_menu>(code, size, /*no_frame*/ true);
@@ -126,17 +133,19 @@ namespace cycfi { namespace elements
       virtual std::string_view   operator[](std::size_t index) const = 0;
    };
 
-   std::pair<basic_menu, std::shared_ptr<basic_label>>
+   using shared_basic_menu = indirect<shared_element<basic_menu>>;
+
+   std::pair<shared_basic_menu, std::shared_ptr<basic_label>>
    selection_menu(std::string init);
 
-   std::pair<basic_menu, std::shared_ptr<basic_label>>
+   std::pair<shared_basic_menu, std::shared_ptr<basic_label>>
    selection_menu(
       std::function<void(std::string_view item)> on_select
     , menu_selector const& items
    );
 
    template <typename Sequence>
-   inline std::pair<basic_menu, std::shared_ptr<basic_label>>
+   inline std::pair<shared_basic_menu, std::shared_ptr<basic_label>>
    selection_menu(
       std::function<void(std::string_view item)> on_select
     , Sequence const& seq
@@ -168,7 +177,7 @@ namespace cycfi { namespace elements
    }
 
    template <typename T>
-   std::pair<basic_menu, std::shared_ptr<basic_label>>
+   std::pair<shared_basic_menu, std::shared_ptr<basic_label>>
    selection_menu(
       std::function<void(std::string_view item)> on_select
     , std::initializer_list<T> const& list

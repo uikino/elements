@@ -18,7 +18,7 @@
 #include <elements/element/label.hpp>
 #include <elements/element/layer.hpp>
 #include <elements/element/margin.hpp>
-// #include <elements/element/menu.hpp>
+#include <elements/element/menu.hpp>
 #include <elements/element/misc.hpp>
 #include <elements/element/popup.hpp>
 #include <elements/element/port.hpp>

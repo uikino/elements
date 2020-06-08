@@ -26,12 +26,12 @@ namespace cycfi { namespace elements
       canvas_.stroke();
    }
 
-   std::pair<basic_menu, std::shared_ptr<basic_label>>
+   std::pair<shared_basic_menu, std::shared_ptr<basic_label>>
    selection_menu(std::string init)
    {
       auto btn_text = share(label(std::move(init)).relative_font_size(1.0));
 
-      auto menu_btn = text_button<basic_menu>(
+      std::shared_ptr<basic_menu> menu_btn = share(make_text_button<basic_menu>(
          margin(
             get_theme().button_margin,
             htile(
@@ -39,13 +39,13 @@ namespace cycfi { namespace elements
                align_right(left_margin(12, icon(icons::down_dir, 1.0)))
             )
          )
-      );
+      ));
 
-      menu_btn.position(menu_position::bottom_right);
-      return { std::move(menu_btn), btn_text };
+      menu_btn->position(menu_position::bottom_right);
+      return { hold(menu_btn), btn_text };
    }
 
-   std::pair<basic_menu, std::shared_ptr<basic_label>>
+   std::pair<shared_basic_menu, std::shared_ptr<basic_label>>
    selection_menu(
       std::function<void(std::string_view item)> on_select
     , menu_selector const& items
@@ -68,7 +68,7 @@ namespace cycfi { namespace elements
          }
 
          auto menu = layer(list, panel{});
-         r.first.menu(menu);
+         r.first.get().menu(menu);
       }
 
       return r;
