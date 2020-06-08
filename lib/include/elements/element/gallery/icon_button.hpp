@@ -15,86 +15,83 @@ namespace cycfi { namespace elements
    ////////////////////////////////////////////////////////////////////////////
    // Icon Button
    ////////////////////////////////////////////////////////////////////////////
-   void draw_icon_button(
-      context const& ctx
-    , uint32_t code
-    , float size
-    , color body_color
-    , bool state
-    , bool hilite
-   );
-
-   template <bool state, bool hilite = state>
-   struct icon_button_element : element
+   struct icon_button_image_base : element, basic_receiver<int>
    {
-                              icon_button_element(
-                                 uint32_t code
-                               , float size
+                              icon_button_image_base(
+                                 float size
                                , color body_color = get_theme().default_button_color
                               )
-                               : _code(code)
-                               , _size(size)
+                               : _size(size)
                                , _body_color(body_color)
                               {}
 
       view_limits             limits(basic_context const& ctx) const override;
-      void                    draw(context const& ctx) override;
+      element*                hit_test(context const& ctx, point p) override;
 
-      uint32_t                _code;
       float                   _size;
       color                   _body_color;
    };
 
-   template <bool state, bool hilite>
-   inline view_limits icon_button_element<state, hilite>::limits(basic_context const& /* ctx */) const
+   struct icon_button_image : icon_button_image_base
    {
-      auto  size = _size * get_theme().icon_font_size * 1.8f;
-      return { { size, size }, { size, size } };
-   }
+                              icon_button_image(
+                                 uint32_t code
+                               , float size
+                               , color body_color = get_theme().default_button_color
+                              )
+                               : icon_button_image_base(size, body_color)
+                               , _code(code)
+                              {}
 
-   template <bool state, bool hilite>
-   inline void icon_button_element<state, hilite>::draw(context const& ctx)
+      void                    draw(context const& ctx) override;
+
+      uint32_t                _code;
+   };
+
+   struct icon_button_image2 : icon_button_image_base
    {
-      draw_icon_button(
-         ctx, _code, _size * get_theme().icon_font_size, _body_color, state, hilite
-      );
-   }
+                              icon_button_image2(
+                                 uint32_t code1
+                               , uint32_t code2
+                               , float size
+                               , color body_color = get_theme().default_button_color
+                              )
+                               : icon_button_image_base(size, body_color)
+                               , _code1(code1)
+                               , _code2(code2)
+                              {}
 
-   inline basic_toggle_button<> toggle_icon_button(
+      void                    draw(context const& ctx) override;
+
+      uint32_t                _code1, _code2;
+   };
+
+   inline auto toggle_icon_button(
       uint32_t code
     , float size
     , color body_color = get_theme().default_button_color
    )
    {
-      return {
-         icon_button_element<false>{ code, size, body_color }
-       , icon_button_element<true>{ code, size, body_color }
-      };
+      return toggle_button(icon_button_image{ code, size, body_color });
    }
 
-   inline basic_toggle_button<> toggle_icon_button(
+   inline auto toggle_icon_button(
       uint32_t code1
     , uint32_t code2
     , float size
     , color body_color = get_theme().default_button_color
    )
    {
-      return {
-         icon_button_element<true, true>{ code1, size, body_color }
-       , icon_button_element<true, true>{ code2, size, body_color }
-      };
+      return toggle_button(icon_button_image2{ code1, code2, size, body_color });
    }
 
-   inline layered_button icon_button(
+   inline auto icon_button(
       uint32_t code
     , float size
     , color body_color = get_theme().default_button_color
    )
    {
-      return {
-         icon_button_element<false>{ code, size, body_color }
-       , icon_button_element<true>{ code, size, body_color }
-      };
+      return toggle_button(icon_button_image{ code, size, body_color });
    }
 }}
 

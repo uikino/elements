@@ -7,29 +7,72 @@
 
 namespace cycfi { namespace elements
 {
-   void draw_icon_button(
-      context const& ctx
-    , uint32_t code
-    , float size
-    , color body_color_
-    , bool state
-    , bool hilite
-   )
+   namespace
    {
-      float corner_radius = 6;
-      auto const& theme = get_theme();
+      void draw_icon_button(
+         context const& ctx
+       , uint32_t code
+       , float size
+       , color color_
+       , bool state
+       , bool hilite
+      )
+      {
+         float corner_radius = 6;
+         auto const& theme = get_theme();
 
-      // Draw Button Body
-      color body_color = state? body_color_ : body_color_.opacity(0.5).level(0.8);
-      draw_button(ctx.canvas, ctx.bounds, body_color, corner_radius);
+         color icon_color = theme.icon_color;
+         if (state)
+         {
+            color_ = color_.level(0.9);
+            icon_color = icon_color.level(2);
+         }
+         else
+         {
+            color_ = color_.opacity(0.5);
+            icon_color = icon_color.level(0.7);
+         }
+         if (hilite)
+         {
+            icon_color = icon_color.opacity(icon_color.alpha + ((1.0 - icon_color.alpha) * 0.8));
+         }
 
-      canvas& canvas_ = ctx.canvas;
-      rect bounds = ctx.bounds;
+         // Draw Button Body
+         draw_button(ctx.canvas, ctx.bounds, color_, corner_radius);
 
-      // Draw Icon
-      color icon_color = hilite?
-         theme.icon_color.level(1.5) :
-         theme.icon_color.level(0.9);
-      draw_icon(canvas_, bounds.move(0.5, 0.5), code, size, icon_color);
+         // Draw Icon
+         draw_icon(ctx.canvas, ctx.bounds.move(0.5, 0.5), code, size, icon_color);
+      }
+   }
+
+   view_limits icon_button_image_base::limits(basic_context const& /*ctx*/) const
+   {
+      auto  size = _size * get_theme().icon_font_size * 1.8f;
+      return { { size, size }, { size, size } };
+   }
+
+   element* icon_button_image_base::hit_test(context const& ctx, point p)
+   {
+      return ctx.bounds.includes(p) ? this : nullptr;
+   }
+
+   void icon_button_image::draw(context const& ctx)
+   {
+      bool  state = value() > 1;
+      bool  hilite = value() & 1;
+      draw_icon_button(
+         ctx, _code, _size * get_theme().icon_font_size
+       , _body_color, state, hilite
+      );
+   }
+
+   void icon_button_image2::draw(context const& ctx)
+   {
+      bool  state = value() > 1;
+      bool  hilite = value() & 1;
+      draw_icon_button(
+         ctx, state? _code1 : _code2
+       , _size * get_theme().icon_font_size, _body_color, true, hilite
+      );
    }
 }}

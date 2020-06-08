@@ -88,80 +88,8 @@ namespace cycfi { namespace elements
    }
 
    ////////////////////////////////////////////////////////////////////////////
-   // Layered Button
+   // Basic Choice
    ////////////////////////////////////////////////////////////////////////////
-   element* layered_button::hit_test(context const& ctx, point p)
-   {
-      if (ctx.bounds.includes(p))
-         return this;
-      return 0;
-   }
-
-   element* layered_button::click(context const& ctx, mouse_button btn)
-   {
-      if (!ctx.bounds.includes(btn.pos))
-         return 0;
-
-      if (btn.down)
-      {
-         on_tracking(ctx, begin_tracking);
-      }
-      else
-      {
-         on_tracking(ctx, end_tracking);
-         if (on_click)
-            on_click(true);
-      }
-
-      if (state(btn.down && ctx.bounds.includes(btn.pos)))
-         ctx.view.refresh(ctx);
-      return this;
-   }
-
-   void layered_button::drag(context const& ctx, mouse_button btn)
-   {
-      if (state(ctx.bounds.includes(btn.pos)))
-         ctx.view.refresh(ctx);
-   }
-
-   bool layered_button::wants_control() const
-   {
-      return true;
-   }
-
-   bool layered_button::value() const
-   {
-      return _state;
-   }
-
-   bool layered_button::state(bool new_state)
-   {
-      if (new_state != _state)
-      {
-         _state = new_state;
-         deck_element::select(_state);
-         return true;
-      }
-      return false;
-   }
-
-   void layered_button::value(bool new_state)
-   {
-      if (_state != new_state)
-         state(new_state);
-   }
-
-   void layered_button::send(bool val)
-   {
-      if (on_click)
-         on_click(val);
-   }
-
-   void layered_button::on_send(callback_function f)
-   {
-      on_click = f;
-   }
-
    void basic_choice_base::do_click(context const& ctx, bool val, bool was_selected)
    {
       if (!was_selected && val)
