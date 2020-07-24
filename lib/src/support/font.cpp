@@ -404,11 +404,12 @@ namespace cycfi { namespace elements
       {
          std::vector<fs::path> paths = font_paths();
 
-#ifdef __APPLE__
+#if defined(ELEMENTS_HOST_UI_LIBRARY_COCOA) || defined(ELEMENTS_HOST_UI_LIBRARY_WIN32)
          paths.push_back(get_user_fonts_directory());
 #else
          if (paths.empty())
             paths.push_back(fs::current_path() / "resources");
+
 #if defined(ELEMENTS_HOST_UI_LIBRARY_WIN32)
          TCHAR windir[MAX_PATH];
          GetWindowsDirectory(windir, MAX_PATH);

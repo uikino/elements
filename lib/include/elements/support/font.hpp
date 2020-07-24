@@ -306,7 +306,7 @@ namespace cycfi { namespace elements
       return _handle;
    }
 
-#ifdef __APPLE__
+#if defined(ELEMENTS_HOST_UI_LIBRARY_COCOA) || defined(ELEMENTS_HOST_UI_LIBRARY_WIN32)
    fs::path get_user_fonts_directory();
 #endif
 

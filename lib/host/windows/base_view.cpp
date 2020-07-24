@@ -63,6 +63,27 @@ namespace cycfi { namespace elements
       return result;
    }
 
+   fs::path module_dir()
+   {
+      wchar_t path[MAX_PATH];
+      HMODULE hm = nullptr;
+      constexpr auto flags =
+         GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+         GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT
+         ;
+
+      if (GetModuleHandleExW(flags, (LPCWSTR) &module_dir, &hm))
+         if (GetModuleFileNameW(hm, path, sizeof(path)))
+            return fs::path{ path }.parent_path();
+      return {};
+   }
+
+   // This is declared in font.hpp
+   fs::path get_user_fonts_directory()
+   {
+      return module_dir() / "resources";
+   }
+
    namespace
    {
       constexpr unsigned IDT_TIMER1 = 100;
