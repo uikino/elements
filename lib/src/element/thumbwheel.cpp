@@ -45,8 +45,8 @@ namespace cycfi { namespace elements
          this_->value(val);
          if (this_->on_change)
          {
-            auto val = this_->value();
-            this_->on_change(val);
+            auto new_val = this_->value();
+            this_->on_change(new_val);
          }
       }
    }

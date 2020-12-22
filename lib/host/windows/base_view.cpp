@@ -299,14 +299,11 @@ namespace cycfi { namespace elements
          {
             // HACK: Key down is not reported for the Print Screen key
             bool r1 = handle_key(*info->vptr, info->keys, { key, key_action::press, mods });
-            bool r1 = handle_key(*info->vptr, info->keys, { key, key_action::release, mods });
+            bool r2 = handle_key(*info->vptr, info->keys, { key, key_action::release, mods });
             return r1 || r2;
          }
-         else
-         {
-            return handle_key(*info->vptr, info->keys, { key, action, mods });
-         }
-         return false;
+
+         return handle_key(*info->vptr, info->keys, { key, action, mods });
       }
 
       void on_cursor(HWND hwnd, base_view* view, LPARAM lparam, cursor_tracking state)
@@ -462,7 +459,7 @@ namespace cycfi { namespace elements
                   {
                      HWND rootHWnd = GetAncestor(hwnd, GA_ROOT);
                      SendMessage(rootHWnd, message, wparam, lparam);
-                     return DefWindowProc(hWnd, message, wparam, lparam);
+                     return DefWindowProc(hwnd, message, wparam, lparam);
                   }
                   return handled;
                }
