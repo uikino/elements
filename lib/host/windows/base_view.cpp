@@ -98,7 +98,7 @@ namespace cycfi { namespace elements
       {
          info->hdc = hdc;
          info->w = w;
-         info->h = w;
+         info->h = h;
 
          // Free-up the previous off-screen DC
          if (info->offscreen_buff)
