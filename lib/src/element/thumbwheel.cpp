@@ -51,6 +51,12 @@ namespace cycfi { namespace elements
       }
    }
 
+   void thumbwheel_base::edit(view& view_, point val)
+   {
+      edit_value(this, val);
+      receiver<point>::notify_edit(view_);
+   }
+
    point thumbwheel_base::compute_value(context const& /*ctx*/, tracker_info& track_info)
    {
       point delta{
