@@ -377,5 +377,8 @@
 
       _tracking[&e] = std::chrono::steady_clock::now();
       on_tracking(e, state);
+
+      if (state == tracking::end_tracking)
+         _tracking.erase(&e);
    }
 }}
