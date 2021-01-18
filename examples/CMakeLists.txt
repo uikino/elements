@@ -23,4 +23,5 @@ add_subdirectory(thumbwheels)
 add_subdirectory(tooltip)
 add_subdirectory(dynamic_list)
 add_subdirectory(custom_control)
+add_subdirectory(child_window)
 

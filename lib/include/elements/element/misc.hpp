@@ -146,7 +146,6 @@ namespace cycfi { namespace elements
    class panel : public element
    {
    public:
-
                      panel(float opacity_ = get_theme().panel_color.alpha)
                       : _opacity(opacity_)
                      {}
