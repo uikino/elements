@@ -116,12 +116,15 @@ namespace cycfi { namespace elements
    template <typename Base>
    inline void tracker<Base>::drag(context const& ctx, mouse_button btn)
    {
-      state->previous = state->current;
-      state->current = btn.pos;
-      state->current = state->current.move(-state->offset.x, -state->offset.y);
-      state->modifiers = btn.modifiers;
-      keep_tracking(ctx, *state);
-      this->on_tracking(ctx, element::while_tracking);
+      if (state)
+      {
+         state->previous = state->current;
+         state->current = btn.pos;
+         state->current = state->current.move(-state->offset.x, -state->offset.y);
+         state->modifiers = btn.modifiers;
+         keep_tracking(ctx, *state);
+         this->on_tracking(ctx, element::while_tracking);
+      }
    }
 
    template <typename Base>

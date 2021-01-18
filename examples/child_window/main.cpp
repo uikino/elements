@@ -15,7 +15,16 @@ auto make_child_window()
 {
    return floating({ 10, 10, 300, 200 },
       pane_ex(
-         movable(title_bar{}),
+         movable(
+            layer(
+               align_right_middle(
+                  hsize(20,
+                     closable(text_button<layered_button>(icons::minus, 0.8, true))
+                  )
+               ),
+               title_bar{}
+            )
+         ),
          "Child Window",
          scroller(image{ "deep_space.jpg" })
       )

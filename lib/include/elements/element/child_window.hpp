@@ -8,11 +8,12 @@
 
 #include <elements/element/floating.hpp>
 #include <elements/element/tracker.hpp>
+#include <elements/element/traversal.hpp>
 
 namespace cycfi { namespace elements
 {
    ////////////////////////////////////////////////////////////////////////////
-   // Movable: allows an element (e.g. title_bar) to be movable if it is
+   // Movable: Allows an element (e.g. title_bar) to be movable if it is
    // contained inside a floating_element. The whole floating_element moves
    // when the element is dragged around.
    ////////////////////////////////////////////////////////////////////////////
@@ -20,8 +21,13 @@ namespace cycfi { namespace elements
    {
    public:
 
-      element*             hit_test(context const& ctx, point p) override;
+      bool                 click(context const& ctx, mouse_button btn) override;
+      void                 drag(context const& ctx, mouse_button btn) override;
       void                 keep_tracking(context const& ctx, tracker_info& track_info) override;
+
+   private:
+
+      bool                 _tracking_subject;
    };
 
    template <typename Subject>
@@ -31,9 +37,40 @@ namespace cycfi { namespace elements
       return { std::forward<Subject>(subject) };
    }
 
-   inline element* movable_base::hit_test(context const& ctx, point p)
+   ////////////////////////////////////////////////////////////////////////////
+   // Closable: When contained inside a floating_element, allows a button (or
+   // any clickable element) to close the floating_element when it is
+   // clicked.
+   ////////////////////////////////////////////////////////////////////////////
+   template <typename Subject>
+   class closable_element : public proxy<Subject>
    {
-      return element::hit_test(ctx, p);
+   public:
+
+      using proxy<Subject>::proxy;
+
+      void                    prepare_subject(context& ctx) override;
+   };
+
+   template <typename Subject>
+   inline closable_element<remove_cvref_t<Subject>>
+   closable(Subject&& subject)
+   {
+      return { std::forward<Subject>(subject) };
+   }
+
+   void close_floating_element(context& ctx, floating_element* cw);
+
+   template <typename Subject>
+   inline void closable_element<Subject>::prepare_subject(context& ctx)
+   {
+      this->actual_subject().on_click =
+         [&ctx](bool)
+         {
+            auto fl = find_parent<floating_element*>(ctx);
+            if (fl)
+              close_floating_element(ctx, fl);
+         };
    }
 }}
 
