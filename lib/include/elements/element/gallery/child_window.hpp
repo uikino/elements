@@ -21,7 +21,8 @@ namespace cycfi { namespace elements
          pane_ex(
             movable(title_bar{}),
             title,
-            std::forward<Content>(content)
+            std::forward<Content>(content),
+            get_theme().child_window_opacity
          )
       );
    }
@@ -45,7 +46,8 @@ namespace cycfi { namespace elements
                )
             ),
             title,
-            std::forward<Content>(content)
+            std::forward<Content>(content),
+            get_theme().child_window_opacity
          )
       );
    }

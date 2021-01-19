@@ -21,6 +21,7 @@ namespace cycfi { namespace elements
       TitleBar&& title_bar,
       Heading&& heading,
       Content&& content,
+      float opacity = get_theme().panel_color.alpha,
       bool center_heading = true
    )
    {
@@ -37,7 +38,7 @@ namespace cycfi { namespace elements
                ),
                std::forward<Content>(content)
             ),
-            panel{}
+            panel{opacity}
         );
    }
 
@@ -77,6 +78,7 @@ namespace cycfi { namespace elements
       std::string title,
       Content&& content,
       float title_size = 1.0,
+      float opacity = get_theme().panel_color.alpha,
       bool center_heading = true
    )
    {
@@ -84,6 +86,7 @@ namespace cycfi { namespace elements
          std::forward<TitleBar>(title_bar),
          heading(std::move(title)).relative_font_size(title_size),
          content,
+         opacity,
          center_heading
       );
    }
@@ -109,6 +112,7 @@ namespace cycfi { namespace elements
       char const* title,
       Content&& content,
       float title_size = 1.0,
+      float opacity = get_theme().panel_color.alpha,
       bool center_heading = true
    )
    {
@@ -116,6 +120,7 @@ namespace cycfi { namespace elements
          std::forward<TitleBar>(title_bar),
          heading(title).relative_font_size(title_size),
          content,
+         opacity,
          center_heading
       );
    }
