@@ -13,21 +13,10 @@ auto background = box(bkd_color);
 
 auto make_child_window()
 {
-   return floating({ 10, 10, 300, 200 },
-      pane_ex(
-         movable(
-            layer(
-               align_right_middle(
-                  hsize(20,
-                     closable(text_button<layered_button>(icons::minus, 0.8, true))
-                  )
-               ),
-               title_bar{}
-            )
-         ),
-         "Child Window",
-         scroller(image{ "deep_space.jpg" })
-      )
+   return closable_child_window(
+      "Child Window",
+      { 10, 10, 300, 200 },
+      scroller(image{ "deep_space.jpg" })
    );
 }
 
