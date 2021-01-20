@@ -28,6 +28,16 @@ namespace cycfi { namespace elements
       );
    }
 
+   template <typename Content>
+   auto basic_child_window(std::string title, point pos, Content&& content)
+   {
+      return basic_child_window(
+         title,
+         rect{pos.x, pos.y, pos.x, pos.y},
+         std::forward<Content>(content)
+      );
+   }
+
    ////////////////////////////////////////////////////////////////////////////
    // Closable Child Window (movable and closable)
    ////////////////////////////////////////////////////////////////////////////
@@ -51,6 +61,16 @@ namespace cycfi { namespace elements
             get_theme().child_window_title_size,
             get_theme().child_window_opacity
          )
+      );
+   }
+
+   template <typename Content>
+   auto closable_child_window(std::string title, point pos, Content&& content)
+   {
+      return closable_child_window(
+         title,
+         rect{pos.x, pos.y, pos.x, pos.y},
+         std::forward<Content>(content)
       );
    }
 }}
