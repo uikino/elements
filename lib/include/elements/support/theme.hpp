@@ -81,6 +81,7 @@ namespace cycfi { namespace elements
       dial_mode_enum       dial_mode;
       float                dial_linear_range;
 
+      float                child_window_title_size;
       float                child_window_opacity;
    };
 

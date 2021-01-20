@@ -17,17 +17,23 @@ namespace cycfi { namespace elements
    // contained inside a floating_element. The whole floating_element moves
    // when the element is dragged around.
    ////////////////////////////////////////////////////////////////////////////
-   class movable_base : public tracker<proxy_base>
+
+   struct movable_tracker_info : tracker_info
+   {
+      using tracker_info::tracker_info;
+
+      float                _offs_top, _offs_bottom;
+   };
+
+   class movable_base : public tracker<proxy_base, movable_tracker_info>
    {
    public:
+
+      using tracker = tracker<proxy_base, movable_tracker_info>;
 
       bool                 click(context const& ctx, mouse_button btn) override;
       void                 drag(context const& ctx, mouse_button btn) override;
       void                 keep_tracking(context const& ctx, tracker_info& track_info) override;
-
-   private:
-
-      bool                 _tracking_subject;
    };
 
    template <typename Subject>

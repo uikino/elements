@@ -14,18 +14,43 @@ namespace cycfi { namespace elements
    ////////////////////////////////////////////////////////////////////////////
    bool movable_base::click(context const& ctx, mouse_button btn)
    {
-      _tracking_subject = proxy_base::click(ctx, btn);
-      if (!_tracking_subject)
-         return tracker<proxy_base>::click(ctx, btn);
-      return _tracking_subject;
+      bool tracking_subject = proxy_base::click(ctx, btn);
+      if (!tracking_subject)
+      {
+         bool r = tracker::click(ctx, btn);
+         auto state = get_state();
+         if (state)
+         {
+            state->_offs_top = btn.pos.y - ctx.bounds.top;
+            state->_offs_bottom = ctx.bounds.bottom - btn.pos.y;
+         }
+         return r;
+      }
+      return tracking_subject;
    }
 
    void movable_base::drag(context const& ctx, mouse_button btn)
    {
-      if (_tracking_subject)
+      auto state = get_state();
+      if (!state)
+      {
          proxy_base::drag(ctx, btn);
+      }
       else
-         tracker<proxy_base>::drag(ctx, btn);
+      {
+         // Clamp the mouse position so we don't move the child window
+         // outside the view which will prevent it from being moved when the
+         // movable control (e.g. title bar) falls out of view.
+
+         auto b = ctx.view_bounds();         // MacOS style: we want the movable
+         b.top += state->_offs_top;          // part to be fully visible when moving
+         b.bottom -= state->_offs_bottom;    // to the top or bottom of the main view.
+
+         clamp(btn.pos.x, b.left, b.right);
+         clamp(btn.pos.y, b.top, b.bottom);
+
+         tracker::drag(ctx, btn);
+      }
    }
 
    void movable_base::keep_tracking(context const& ctx, tracker_info& track_info)

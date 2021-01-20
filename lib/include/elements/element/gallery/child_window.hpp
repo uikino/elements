@@ -22,6 +22,7 @@ namespace cycfi { namespace elements
             movable(title_bar{}),
             title,
             std::forward<Content>(content),
+            get_theme().child_window_title_size,
             get_theme().child_window_opacity
          )
       );
@@ -39,7 +40,7 @@ namespace cycfi { namespace elements
                layer(
                   align_right_middle(
                      hsize(20,
-                        closable(text_button<layered_button>(icons::minus, 0.8, true))
+                        closable(text_button<layered_button>(icons::cancel, 0.8, true))
                      )
                   ),
                   title_bar{}
@@ -47,6 +48,7 @@ namespace cycfi { namespace elements
             ),
             title,
             std::forward<Content>(content),
+            get_theme().child_window_title_size,
             get_theme().child_window_opacity
          )
       );
