@@ -10,6 +10,20 @@
 namespace cycfi { namespace elements
 {
    ////////////////////////////////////////////////////////////////////////////
+   // child_window
+   ////////////////////////////////////////////////////////////////////////////
+   bool child_window::click(context const& ctx, mouse_button btn)
+   {
+      auto this_ = shared_from_this();
+      if (ctx.view.layers().front() != this_)
+      {
+         ctx.view.move_to_front(this_);
+         return true;
+      }
+      return floating_element::click(ctx, btn);
+   }
+
+   ////////////////////////////////////////////////////////////////////////////
    // movable_base
    ////////////////////////////////////////////////////////////////////////////
    bool movable_base::click(context const& ctx, mouse_button btn)

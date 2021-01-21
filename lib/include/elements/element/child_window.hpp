@@ -13,6 +13,19 @@
 namespace cycfi { namespace elements
 {
    ////////////////////////////////////////////////////////////////////////////
+   // Child window: Are floating elements that may overlap and move to front
+   // when clicked.
+   ////////////////////////////////////////////////////////////////////////////
+   class child_window : floating_element
+   {
+   public:
+
+      using floating_element::floating_element;
+
+      bool                 click(context const& ctx, mouse_button btn) override;
+   };
+
+   ////////////////////////////////////////////////////////////////////////////
    // Movable: Allows an element (e.g. title_bar) to be movable if it is
    // contained inside a floating_element. The whole floating_element moves
    // when the element is dragged around.

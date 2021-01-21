@@ -17,7 +17,7 @@ namespace cycfi { namespace elements
    template <typename Content>
    auto basic_child_window(std::string title, rect bounds, Content&& content)
    {
-      return floating(bounds,
+      return child_window(bounds,
          pane_ex(
             movable(title_bar{}),
             title,
@@ -44,7 +44,7 @@ namespace cycfi { namespace elements
    template <typename Content>
    auto closable_child_window(std::string title, rect bounds, Content&& content)
    {
-      return floating(bounds,
+      return child_window(bounds,
          pane_ex(
             movable(
                layer(
