@@ -10,15 +10,28 @@
 namespace cycfi { namespace elements
 {
    ////////////////////////////////////////////////////////////////////////////
-   // child_window
+   // child_window_element
    ////////////////////////////////////////////////////////////////////////////
-   bool child_window::click(context const& ctx, mouse_button btn)
+   bool child_window_element::click(context const& ctx, mouse_button btn)
    {
-      auto this_ = shared_from_this();
-      if (ctx.view.layers().front() != this_)
+      if (btn.down)
       {
-         ctx.view.move_to_front(this_);
-         return true;
+         auto this_ = shared_from_this();
+         // If the child window is not already at the front,
+         if (ctx.view.layers().back() != this_)
+         {
+            // Move child window to the front
+            ctx.view.move_to_front(this_);
+
+            // Simulate a view click for continuation
+            ctx.view.post(
+               [btn, &view = ctx.view]()
+               {
+                  view.click(btn);
+               }
+            );
+            return true;
+         }
       }
       return floating_element::click(ctx, btn);
    }

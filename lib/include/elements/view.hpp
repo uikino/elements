@@ -265,7 +265,7 @@ namespace cycfi { namespace elements
 
    inline void view::move_to_front(element_ptr e)
    {
-      if (e && _content.front() != e)
+      if (e && _content.back() != e)
       {
          io().post(
             [e, this]
@@ -275,7 +275,7 @@ namespace cycfi { namespace elements
                {
                   end_focus();
                   _content.erase(i);
-                  _content.insert(_content.begin(), e);
+                  _content.insert(_content.end(), e);
                   _content.reset();
                   layout();
                   begin_focus();

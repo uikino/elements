@@ -16,7 +16,7 @@ namespace cycfi { namespace elements
    // Child window: Are floating elements that may overlap and move to front
    // when clicked.
    ////////////////////////////////////////////////////////////////////////////
-   class child_window : floating_element
+   class child_window_element : public floating_element
    {
    public:
 
@@ -24,6 +24,13 @@ namespace cycfi { namespace elements
 
       bool                 click(context const& ctx, mouse_button btn) override;
    };
+
+   template <typename Subject>
+   inline proxy<remove_cvref_t<Subject>, child_window_element>
+   child_window(rect bounds, Subject&& subject)
+   {
+      return { std::forward<Subject>(subject), bounds };
+   }
 
    ////////////////////////////////////////////////////////////////////////////
    // Movable: Allows an element (e.g. title_bar) to be movable if it is

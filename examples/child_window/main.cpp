@@ -11,10 +11,10 @@ using namespace cycfi::elements;
 auto constexpr bkd_color = rgba(35, 35, 37, 255);
 auto background = box(bkd_color);
 
-auto make_child_window(rect bounds)
+auto make_child_window(rect bounds, char const* title)
 {
    return closable_child_window(
-      "Child Window",
+      title,
       bounds,
       scroller(image{ "deep_space.jpg" })
    );
@@ -29,8 +29,8 @@ int main(int argc, char* argv[])
    view view_(_win);
 
    view_.content(
-      make_child_window({ 10, 10, 300, 200 }),
-      make_child_window({ 60, 60, 350, 250 }),
+      make_child_window({ 10, 10, 300, 200 }, "Child Window 1"),
+      make_child_window({ 60, 60, 350, 250 }, "Child Window 2"),
       background
    );
 
