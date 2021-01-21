@@ -48,9 +48,9 @@ namespace cycfi { namespace elements
          pane_ex(
             movable(
                layer(
-                  align_right_middle(
-                     hsize(20,
-                        closable(text_button<layered_button>(icons::cancel, 0.8, true))
+                  closable(
+                     align_right_middle(
+                        plain_icon_button(icons::cancel, 0.8)
                      )
                   ),
                   title_bar{}

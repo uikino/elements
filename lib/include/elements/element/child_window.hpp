@@ -9,6 +9,7 @@
 #include <elements/element/floating.hpp>
 #include <elements/element/tracker.hpp>
 #include <elements/element/traversal.hpp>
+#include <elements/element/button.hpp>
 
 namespace cycfi { namespace elements
 {
@@ -90,13 +91,17 @@ namespace cycfi { namespace elements
    template <typename Subject>
    inline void closable_element<Subject>::prepare_subject(context& ctx)
    {
-      this->actual_subject().on_click =
-         [&ctx](bool)
-         {
-            auto fl = find_parent<floating_element*>(ctx);
-            if (fl)
-              close_floating_element(ctx, fl);
-         };
+      auto btn = find_subject<button_base*>(this);
+      if (btn)
+      {
+         btn->on_click =
+            [&ctx](bool)
+            {
+               auto fl = find_parent<floating_element*>(ctx);
+               if (fl)
+               close_floating_element(ctx, fl);
+            };
+      }
    }
 }}
 

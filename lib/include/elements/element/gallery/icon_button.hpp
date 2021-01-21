@@ -149,10 +149,7 @@ namespace cycfi { namespace elements
       };
    }
 
-   inline layered_button plain_icon_button(
-      uint32_t code
-    , float size
-   )
+   inline layered_button plain_icon_button(uint32_t code, float size)
    {
       return {
          plain_icon_button_element<false>{code, size}
