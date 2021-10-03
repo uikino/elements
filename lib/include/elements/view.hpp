@@ -87,7 +87,6 @@ namespace cycfi { namespace elements
       void                    add(element_ptr e);
       void                    remove(element_ptr e);
       void                    move_to_front(element_ptr e);
-      void                    move_to_back(element_ptr e);
       bool                    is_open(element_ptr e);
       layers_vector const&    layers() const;
 
@@ -275,28 +274,8 @@ namespace cycfi { namespace elements
                if (i != _content.end())
                {
                   end_focus();
-                  std::rotate(i, i+1, _content.end());
-                  _content.reset();
-                  layout();
-                  begin_focus();
-               }
-            }
-         );
-      }
-   }
-
-   inline void view::move_to_back(element_ptr e)
-   {
-      if (e && _content.front() != e)
-      {
-         io().post(
-            [e, this]
-            {
-               auto i = std::find(_content.begin(), _content.end(), e);
-               if (i != _content.end())
-               {
-                  end_focus();
-                  std::rotate(_content.begin(), i, i+1);
+                  _content.erase(i);
+                  _content.insert(_content.end(), e);
                   _content.reset();
                   layout();
                   begin_focus();
