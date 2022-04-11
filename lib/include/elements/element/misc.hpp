@@ -56,6 +56,24 @@ namespace cycfi { namespace elements
       return box_element{ color_ };
    }
 
+   struct image_box_element : element {
+      explicit image_box_element(pixmap pix_) : pixmap_(std::make_shared<pixmap>(std::move(pix_))) {}
+      explicit image_box_element(pixmap_ptr ptr_): pixmap_(ptr_) {}
+      void draw(context const &ctx) {
+         auto &cnv = ctx.canvas;
+         cnv.draw(*pixmap_, ctx.bounds);
+      }
+
+      pixmap_ptr pixmap_;
+   };
+
+   inline auto box(pixmap pix_) {
+      return image_box_element{std::move(pix_)};
+   }
+   inline auto box(pixmap_ptr pix_) {
+      return image_box_element{pix_};
+   }
+
    ////////////////////////////////////////////////////////////////////////////
    // RBox: A simple colored rounded-box.
    ////////////////////////////////////////////////////////////////////////////
