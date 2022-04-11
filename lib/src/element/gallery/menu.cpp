@@ -3,6 +3,7 @@
 
    Distributed under the MIT License [ https://opensource.org/licenses/MIT ]
 =============================================================================*/
+#include <elements/compatibility.hpp>
 #include <elements/element/gallery/menu.hpp>
 
 namespace cycfi { namespace elements
